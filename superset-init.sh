@@ -11,10 +11,20 @@ if [ ! -f $SUPERSET_HOME/superset_config.py ]; then
   echo "No Superset config found, creating from environment"
   touch $SUPERSET_HOME/superset_config.py
 
-  # Backwards compatability with old env var for the database URI
+  # Backwards compatability with old env var for the database URI, port, and timeout
   if [ "{$SUP_META_DB_URI}" != "{}" -a "{$SUP_SQLALCHEMY_DATABASE_URI}" == "{}" ]; then
     export SUP_SQLALCHEMY_DATABASE_URI=$SUP_META_DB_URI
     unset SUP_META_DB_URI
+  fi
+
+  if [ "{$SUP_WEBSERVER_PORT}" != "{}" -a "{$SUP_SUPERSET_WEBSERVER_PORT}" == "{}" ]; then
+    export SUP_SUPERSET_WEBSERVER_PORT=$SUP_WEBSERVER_PORT
+    unset SUP_WEBSERVER_PORT
+  fi
+
+  if [ "{$SUP_WEBSERVER_TIMEOUT}" != "{}" -a "{$SUP_SUPERSET_WEBSERVER_TIMEOUT}" == "{}" ]; then
+    export SUP_SUPERSET_WEBSERVER_TIMEOUT=$SUP_WEBSERVER_TIMEOUT
+    unset SUP_WEBSERVER_TIMEOUT
   fi
 
   SUP_CONFIGS=`env | grep '^SUP_.*'`
