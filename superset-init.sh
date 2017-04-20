@@ -11,6 +11,12 @@ if [ ! -f $SUPERSET_HOME/superset_config.py ]; then
   echo "No Superset config found, creating from environment"
   touch $SUPERSET_HOME/superset_config.py
 
+  # Backwards compatability with old env var for the database URI
+  if [ "{$SUP_META_DB_URI}" != "{}" -a "{$SUP_SQLALCHEMY_DATABASE_URI}" == "{}" ]; then
+    export SUP_SQLALCHEMY_DATABASE_URI=$SUP_META_DB_URI
+    unset SUP_META_DB_URI
+  fi
+
   SUP_CONFIGS=`env | grep '^SUP_.*'`
   for config in `echo "$SUP_CONFIGS"`; do
     setting=`echo $config | sed 's/^SUP_//g' | sed 's/=.*//'`
