@@ -11,15 +11,14 @@ if [ ! -f $SUPERSET_HOME/superset_config.py ]; then
   echo "No Superset config found, creating from environment"
   touch $SUPERSET_HOME/superset_config.py
 
-  cat > $SUPERSET_HOME/superset_config.py <<EOF
-ROW_LIMIT = ${SUP_ROW_LIMIT}
-WEBSERVER_THREADS = ${SUP_WEBSERVER_THREADS}
-SUPERSET_WEBSERVER_PORT = ${SUP_WEBSERVER_PORT}
-SUPERSET_WEBSERVER_TIMEOUT = ${SUP_WEBSERVER_TIMEOUT}
-SECRET_KEY = '${SUP_SECRET_KEY}'
-SQLALCHEMY_DATABASE_URI = '${SUP_META_DB_URI}'
-CSRF_ENABLED = ${SUP_CSRF_ENABLED}
-EOF
+  SUP_CONFIGS=`env | grep '^SUP_.*'`
+  for config in `echo "$SUP_CONFIGS"`; do
+    setting=`echo $config | sed 's/^SUP_//g' | sed 's/=.*//'`
+    value=`echo $config | sed "s/^SUP_${setting}=//"`
+    echo "Setting $setting to $value"
+    echo "$setting = \"$value\"" >> $SUPERSET_HOME/superset_config.py
+  done
+
 fi
 
 # check for existence of /docker-entrypoint.sh & run it if it does
