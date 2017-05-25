@@ -26,8 +26,9 @@ ENV DB_PACKAGES libpq-dev
 ENV DB_PIP_PACKAGES psycopg2
 
 # Set up Athena support
+RUN apt-get install -y default-jre
 RUN ln -s /usr/bin/java /usr/bin/jvm
-ENV CLASSPATH /usr/local/lib/python3.6/site-packages/pyathenajdbc
+ENV CLASSPATH /usr/local/lib/python3.6/site-packages/pyathenajdbc/AthenaJDBC41-1.0.1.jar
 
 RUN apt-get update \
 && apt-get install -y \
