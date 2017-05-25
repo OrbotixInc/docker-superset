@@ -1,6 +1,15 @@
 #!/bin/bash
 
 set -eo pipefail
+apt-get update
+apt-get install -y  git
+pip uninstall -y Flask-AppBuilder
+#pip install git+git://github.com/dpgaspar/Flask-AppBuilder.git@7b01f5c8f89df79f2d47fd6cb48b8bb9b1495ed9
+ pip install git+git://github.com/dpgaspar/Flask-AppBuilder.git@1715ad474007fa4289e7563f082721edc6cc1db3
+#pip install git+git://github.com/vavrusa/Flask-AppBuilder.git@a9fae80
+pip install Flask-OAuthlib
+#pip install Flask-Mail
+pip list
 
 # check to see if the superset config already exists, if it does skip to
 # running the user supplied docker-entrypoint.sh, note that this means
@@ -19,8 +28,52 @@ SUPERSET_WEBSERVER_TIMEOUT = ${SUP_WEBSERVER_TIMEOUT}
 SECRET_KEY = '${SUP_SECRET_KEY}'
 SQLALCHEMY_DATABASE_URI = '${SUP_META_DB_URI}'
 CSRF_ENABLED = ${SUP_CSRF_ENABLED}
+SQLLAB_TIMEOUT = ${SUP_SQLLAB_TIMEOUT}
+ENABLE_PROXY_FIX = ${SUP_ENABLE_PROXY_FIX}
+LOG_LEVEL = 'DEBUG'
 EOF
 fi
+
+cat >> $SUPERSET_HOME/superset_config.py <<EOF
+from flask_appbuilder.security.manager import AUTH_OID, \
+                                          AUTH_REMOTE_USER, \
+                                          AUTH_DB, AUTH_LDAP, \
+                                          AUTH_OAUTH
+AUTH_TYPE = 4
+AUTH_USER_REGISTRATION = False
+#AUTH_USER_REGISTRATION_ROLE = "public"
+
+#RECAPTCHA_PUBLIC_KEY = '6LfZBiIUAAAAAEg0NQVXqElPBeHnkID7tHw-E9ty'
+#RECAPTCHA_PRIVATE_KEY = '6LfZBiIUAAAAAB0PvD3NLdD9ZYKetBBYH2kDeFUJ'
+#RECAPTCHA_PUBLIC_KEY = '6LfRBiIUAAAAAKAFtRLYAe9ftUysMHPlHrNPftUD'
+#RECAPTCHA_PRIVATE_KEY = '6LfRBiIUAAAAAEDK0JJTAw1xvX8eeUnRtPXDEsup'
+
+# Config for Flask-Mail necessary for user registration
+#MAIL_SERVER = 'smtp.sendgrid.net'
+#MAIL_USE_TLS = True
+#MAIL_USERNAME = 'orbotix'
+#MAIL_PASSWORD = 'wCgn3SYjp7c4'
+#MAIL_DEFAULT_SENDER = 'fabtest10@gmail.com'
+
+OAUTH_PROVIDERS = [
+    {'name':'google', 'icon':'fa-google', 'token_key':'access_token',
+        'remote_app': {
+            'consumer_key':'550113973509-ehkfhponfjjn2sbfe57cljov0chmg1jn.apps.googleusercontent.com',
+            'consumer_secret':'MQRfilMT3czTecAKc0GJDQTF',
+            'base_url':'https://www.googleapis.com/plus/v1/',
+            'request_token_params':{
+              'scope': 'https://www.googleapis.com/auth/userinfo.email'
+            },
+            'request_token_url':None,
+            'access_token_url':'https://accounts.google.com/o/oauth2/token',
+            'authorize_url':'https://accounts.google.com/o/oauth2/auth'}
+    }
+]
+
+import logging
+logging.getLogger().setLevel(logging.DEBUG)
+
+EOF
 
 # check for existence of /docker-entrypoint.sh & run it if it does
 echo "Checking for docker-entrypoint"
@@ -31,35 +84,35 @@ if [ -f /docker-entrypoint.sh ]; then
 fi
 
 # set up Caravel if we haven't already
-if [ ! -f $SUPERSET_HOME/.setup-complete ]; then
-  echo "Running first time setup for Caravel"
+#if [ ! -f $SUPERSET_HOME/.setup-complete ]; then
+#  echo "Running first time setup for Caravel"
+#
+#  echo "Creating admin user ${ADMIN_USERNAME}"
+#  cat > $SUPERSET_HOME/admin.config <<EOF
+#${ADMIN_USERNAME}
+#${ADMIN_FIRST_NAME}
+#${ADMIN_LAST_NAME}
+#${ADMIN_EMAIL}
+#${ADMIN_PWD}
+#${ADMIN_PWD}
+#
+#EOF
 
-  echo "Creating admin user ${ADMIN_USERNAME}"
-  cat > $SUPERSET_HOME/admin.config <<EOF
-${ADMIN_USERNAME}
-${ADMIN_FIRST_NAME}
-${ADMIN_LAST_NAME}
-${ADMIN_EMAIL}
-${ADMIN_PWD}
-${ADMIN_PWD}
+#  /bin/sh -c '/usr/local/bin/fabmanager create-admin --app superset < $SUPERSET_HOME/admin.config'
 
-EOF
+#  rm $SUPERSET_HOME/admin.config
 
-  /bin/sh -c '/usr/local/bin/fabmanager create-admin --app superset < $SUPERSET_HOME/admin.config'
+#  echo "Initializing database"
+#  superset db upgrade
 
-  rm $SUPERSET_HOME/admin.config
+#  echo "Creating default roles and permissions"
+#  superset init
 
-  echo "Initializing database"
-  superset db upgrade
-
-  echo "Creating default roles and permissions"
-  superset init
-
-  touch $SUPERSET_HOME/.setup-complete
-else
-  # always upgrade the database, running any pending migrations
-  superset db upgrade
-fi
+#  touch $SUPERSET_HOME/.setup-complete
+#else
+#  # always upgrade the database, running any pending migrations
+#  superset db upgrade
+#fi
 
 echo "Starting up Caravel"
 superset runserver -p 8088 -a 0.0.0.0 -t ${SUP_WEBSERVER_TIMEOUT}
