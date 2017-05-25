@@ -51,7 +51,7 @@ RUN \
 RUN echo "===> install Java"  && \
     echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections  && \
     echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections  && \
-    DEBIAN_FRONTEND=noninteractive  apt-get install -y --force-yes oracle-java8-installer oracle-java8-set-defaultRUN ln -s /usr/bin/java /usr/bin/jvm
+    DEBIAN_FRONTEND=noninteractive  apt-get install -y --force-yes oracle-java8-installer oracle-java8-set-default
 
 RUN echo "===> clean up..."  && \
     rm -rf /var/cache/oracle-jdk8-installer  && \
