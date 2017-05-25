@@ -25,11 +25,6 @@ ENV ADMIN_PWD superset
 ENV DB_PACKAGES libpq-dev
 ENV DB_PIP_PACKAGES psycopg2
 
-# Set up Athena support
-RUN apt-get install -y default-jre
-RUN ln -s /usr/bin/java /usr/bin/jvm
-ENV CLASSPATH /usr/local/lib/python3.6/site-packages/pyathenajdbc/AthenaJDBC41-1.0.1.jar
-
 RUN apt-get update \
 && apt-get install -y \
   build-essential gcc \
@@ -43,6 +38,11 @@ RUN apt-get update \
 # install DB packages separately
 RUN apt-get update && apt-get install -y $DB_PACKAGES \
 && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set up Athena support
+RUN apt-get install -y default-jre
+RUN ln -s /usr/bin/java /usr/bin/jvm
+ENV CLASSPATH /usr/local/lib/python3.6/site-packages/pyathenajdbc/AthenaJDBC41-1.0.1.jar
 
 # remove build dependencies
 RUN mkdir $SUPERSET_HOME
