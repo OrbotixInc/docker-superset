@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install -y $DB_PACKAGES \
 && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set up Athena support
-RUN apt-get install -y default-jre
+RUN apt-get update && apt-get install -y default-jre && apt-get clean
 RUN ln -s /usr/bin/java /usr/bin/jvm
 ENV CLASSPATH /usr/local/lib/python3.6/site-packages/pyathenajdbc/AthenaJDBC41-1.0.1.jar
 
