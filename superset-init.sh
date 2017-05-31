@@ -41,13 +41,13 @@ from flask_appbuilder.security.manager import AUTH_OID, \
                                           AUTH_DB, AUTH_LDAP, \
                                           AUTH_OAUTH
 AUTH_TYPE = 4
-AUTH_USER_REGISTRATION = False
+AUTH_USER_REGISTRATION = True
 #AUTH_USER_REGISTRATION_ROLE = "public"
 
 #RECAPTCHA_PUBLIC_KEY = '6LfZBiIUAAAAAEg0NQVXqElPBeHnkID7tHw-E9ty'
 #RECAPTCHA_PRIVATE_KEY = '6LfZBiIUAAAAAB0PvD3NLdD9ZYKetBBYH2kDeFUJ'
-#RECAPTCHA_PUBLIC_KEY = '6LfRBiIUAAAAAKAFtRLYAe9ftUysMHPlHrNPftUD'
-#RECAPTCHA_PRIVATE_KEY = '6LfRBiIUAAAAAEDK0JJTAw1xvX8eeUnRtPXDEsup'
+RECAPTCHA_PUBLIC_KEY = '6LfRBiIUAAAAAKAFtRLYAe9ftUysMHPlHrNPftUD'
+RECAPTCHA_PRIVATE_KEY = '6LfRBiIUAAAAAEDK0JJTAw1xvX8eeUnRtPXDEsup'
 
 # Config for Flask-Mail necessary for user registration
 #MAIL_SERVER = 'smtp.sendgrid.net'
