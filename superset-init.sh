@@ -47,7 +47,7 @@ RECAPTCHA_PRIVATE_KEY = '6LfRBiIUAAAAAEDK0JJTAw1xvX8eeUnRtPXDEsup'
 
 # Config for Flask-Mail necessary for user registration
 MAIL_SERVER = 'smtp.sendgrid.net'
-MAIL_PORT = 587
+MAIL_PORT = 2525
 MAIL_DEBUG = True
 MAIL_USE_TLS = True
 MAIL_USERNAME = 'orbotix'
