@@ -4,7 +4,7 @@ set -eo pipefail
 apt-get update
 apt-get install -y  git
 pip uninstall -y Flask-AppBuilder
-pip install git+git://github.com/mattk42/Flask-AppBuilder.git@cdfc46a0b25f4682372ea4d78ba4e31e37382d81
+pip install git+git://github.com/mattk42/Flask-AppBuilder.git@8833d4a53d5e7e2d4a1adc3a8bb8f804cca423bb
 pip install Flask-OAuthlib
 pip install Flask-Mail
 pip list
@@ -40,6 +40,7 @@ from flask_appbuilder.security.manager import AUTH_OID, \
 AUTH_TYPE = 4
 AUTH_USER_REGISTRATION = True
 AUTH_USER_REGISTRATION_ROLE = "readonly"
+ALLOWED_EMAIL_DOMAINS = [ "sphero.com" ]
 
 RECAPTCHA_PUBLIC_KEY = '6LfRBiIUAAAAAKAFtRLYAe9ftUysMHPlHrNPftUD'
 RECAPTCHA_PRIVATE_KEY = '6LfRBiIUAAAAAEDK0JJTAw1xvX8eeUnRtPXDEsup'
