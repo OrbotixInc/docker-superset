@@ -4,7 +4,7 @@ set -eo pipefail
 apt-get update
 apt-get install -y  git
 pip uninstall -y Flask-AppBuilder
-pip install git+git://github.com/mattk42/Flask-AppBuilder.git@8833d4a53d5e7e2d4a1adc3a8bb8f804cca423bb
+pip install git+git://github.com/mattk42/Flask-AppBuilder.git@746ad68eaba6b26feca5906da8afccaf06271027
 pip install Flask-OAuthlib
 pip install Flask-Mail
 pip list
@@ -47,10 +47,12 @@ RECAPTCHA_PRIVATE_KEY = '6LfRBiIUAAAAAEDK0JJTAw1xvX8eeUnRtPXDEsup'
 
 # Config for Flask-Mail necessary for user registration
 MAIL_SERVER = 'smtp.sendgrid.net'
+MAIL_PORT = 587
+MAIL_DEBUG = True
 MAIL_USE_TLS = True
 MAIL_USERNAME = 'orbotix'
 MAIL_PASSWORD = 'wCgn3SYjp7c4'
-MAIL_DEFAULT_SENDER = 'fabtest10@gmail.com'
+MAIL_DEFAULT_SENDER = 'platform@sphero.com'
 
 OAUTH_PROVIDERS = [
     {'name':'google', 'icon':'fa-google', 'token_key':'access_token',
