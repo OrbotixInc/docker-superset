@@ -6,7 +6,7 @@ apt-get install -y  git
 pip uninstall -y Flask-AppBuilder
 pip install git+git://github.com/mattk42/Flask-AppBuilder.git@cdfc46a0b25f4682372ea4d78ba4e31e37382d81
 pip install Flask-OAuthlib
-#pip install Flask-Mail
+pip install Flask-Mail
 pip list
 
 # check to see if the superset config already exists, if it does skip to
@@ -39,19 +39,17 @@ from flask_appbuilder.security.manager import AUTH_OID, \
                                           AUTH_OAUTH
 AUTH_TYPE = 4
 AUTH_USER_REGISTRATION = True
-#AUTH_USER_REGISTRATION_ROLE = "public"
+AUTH_USER_REGISTRATION_ROLE = "readonly"
 
-#RECAPTCHA_PUBLIC_KEY = '6LfZBiIUAAAAAEg0NQVXqElPBeHnkID7tHw-E9ty'
-#RECAPTCHA_PRIVATE_KEY = '6LfZBiIUAAAAAB0PvD3NLdD9ZYKetBBYH2kDeFUJ'
 RECAPTCHA_PUBLIC_KEY = '6LfRBiIUAAAAAKAFtRLYAe9ftUysMHPlHrNPftUD'
 RECAPTCHA_PRIVATE_KEY = '6LfRBiIUAAAAAEDK0JJTAw1xvX8eeUnRtPXDEsup'
 
 # Config for Flask-Mail necessary for user registration
-#MAIL_SERVER = 'smtp.sendgrid.net'
-#MAIL_USE_TLS = True
-#MAIL_USERNAME = 'orbotix'
-#MAIL_PASSWORD = 'wCgn3SYjp7c4'
-#MAIL_DEFAULT_SENDER = 'fabtest10@gmail.com'
+MAIL_SERVER = 'smtp.sendgrid.net'
+MAIL_USE_TLS = True
+MAIL_USERNAME = 'orbotix'
+MAIL_PASSWORD = 'wCgn3SYjp7c4'
+MAIL_DEFAULT_SENDER = 'fabtest10@gmail.com'
 
 OAUTH_PROVIDERS = [
     {'name':'google', 'icon':'fa-google', 'token_key':'access_token',
