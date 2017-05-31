@@ -42,23 +42,22 @@ AUTH_USER_REGISTRATION = True
 AUTH_USER_REGISTRATION_ROLE = "readonly"
 ALLOWED_EMAIL_DOMAINS = [ "sphero.com" ]
 
-RECAPTCHA_PUBLIC_KEY = '6LfRBiIUAAAAAKAFtRLYAe9ftUysMHPlHrNPftUD'
-RECAPTCHA_PRIVATE_KEY = '6LfRBiIUAAAAAEDK0JJTAw1xvX8eeUnRtPXDEsup'
+RECAPTCHA_PUBLIC_KEY = "${RECAPTCHA_PUBLIC_KEY}"
+RECAPTCHA_PRIVATE_KEY =  "${RECAPTCHA_PRIVATE_KEY}"
 
 # Config for Flask-Mail necessary for user registration
-MAIL_SERVER = 'smtp.sendgrid.net'
-MAIL_PORT = 2525
-MAIL_DEBUG = True
+MAIL_SERVER = "${MAIL_SERVER}"
+MAIL_PORT = "${MAIL_PORT}"
 MAIL_USE_TLS = True
-MAIL_USERNAME = 'orbotix'
-MAIL_PASSWORD = 'wCgn3SYjp7c4'
-MAIL_DEFAULT_SENDER = 'platform@sphero.com'
+MAIL_USERNAME = "${MAIL_USERNAME}"
+MAIL_PASSWORD = "${MAIL_PASSWORD}"
+MAIL_DEFAULT_SENDER = "${MAIL_DEFAULT_SENDER}"
 
 OAUTH_PROVIDERS = [
     {'name':'google', 'icon':'fa-google', 'token_key':'access_token',
         'remote_app': {
-            'consumer_key':'550113973509-ehkfhponfjjn2sbfe57cljov0chmg1jn.apps.googleusercontent.com',
-            'consumer_secret':'MQRfilMT3czTecAKc0GJDQTF',
+            'consumer_key':"${GOOGLE_CONSUMER_KEY}",
+            'consumer_secret':"${GOOGLE_CONSUMER_SECRET}",
             'base_url':'https://www.googleapis.com/plus/v1/',
             'request_token_params':{
               'scope': 'https://www.googleapis.com/auth/userinfo.email'
