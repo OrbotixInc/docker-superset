@@ -4,10 +4,7 @@ set -eo pipefail
 apt-get update
 apt-get install -y  git
 pip uninstall -y Flask-AppBuilder
-#pip install git+git://github.com/dpgaspar/Flask-AppBuilder.git@7b01f5c8f89df79f2d47fd6cb48b8bb9b1495ed9
-# pip install git+git://github.com/dpgaspar/Flask-AppBuilder.git@1715ad474007fa4289e7563f082721edc6cc1db3
-#pip install git+git://github.com/vavrusa/Flask-AppBuilder.git@a9fae80
-pip install git+git://github.com/mattk42/Flask-AppBuilder.git@bd3bfa54172e6be0e2ad79b1a4c37f3bc5edfaff
+pip install git+git://github.com/mattk42/Flask-AppBuilder.git@cdfc46a0b25f4682372ea4d78ba4e31e37382d81
 pip install Flask-OAuthlib
 #pip install Flask-Mail
 pip list
